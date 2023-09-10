@@ -1,4 +1,3 @@
-import 'package:chat_app/components/posts.dart';
 import 'package:chat_app/components/text_field.dart';
 import 'package:chat_app/pages/profile_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -74,11 +73,31 @@ class _HomePageState extends State<HomePage> {
                     final post = snapshot.data!.docs;
                     if (snapshot.data != null && post.length > index) {
                       final posts = post[index];
-                      return Post(
-                        msg: posts['Message'] ?? '',
-                        user: posts['UserEmail'] ?? '',
-                        postId: posts.id,
-                        likes: List<String>.from(posts['Likes'] ?? []),
+                      final isOutgoing =
+                          currentUser?.email == posts['UserEmail'];
+
+                      return AnimatedOpacity(
+                        duration: const Duration(
+                            milliseconds: 500), // Adjust the duration as needed
+                        opacity: 1.0, // Set to 0.0 initially to make it fade in
+                        child: Align(
+                          alignment: isOutgoing
+                              ? Alignment.centerRight
+                              : Alignment.centerLeft,
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 16, vertical: 8),
+                            margin: const EdgeInsets.symmetric(vertical: 8),
+                            decoration: BoxDecoration(
+                              color: isOutgoing ? Colors.black : Colors.green,
+                              borderRadius: BorderRadius.circular(16),
+                            ),
+                            child: Text(
+                              posts['Message'] ?? '',
+                              style: const TextStyle(color: Colors.white),
+                            ),
+                          ).px(12),
+                        ),
                       );
                     } else {
                       return const SizedBox();
