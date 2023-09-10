@@ -1,3 +1,3 @@
-# chat_app
-
-A new Flutter project.
+- An App Mainly For Group Chats.
+- Made with firebase for chatting and having track of chats.
+- This is my first ever flutter project so it may not be the best looking one.
